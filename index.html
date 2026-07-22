@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Mentalhealth — Bridging Medicine & AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+Hebrew:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0f2843;
+    --navy-2:#1c3d61;
+    --teal:#0e8f8a;
+    --teal-deep:#0a6d69;
+    --teal-light:#eaf5f4;
+    --ink:#22303f;
+    --gray:#63707e;
+    --gray-2:#93a0ad;
+    --line:#e4e9ee;
+    --bg:#f8fafb;
+    --serif-en:'Cormorant Garamond',serif;
+    --serif-jp:'Noto Serif JP',serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter','Noto Sans JP','Noto Sans Hebrew',sans-serif;color:var(--ink);line-height:1.9;background:#fff;overflow-x:hidden;font-size:15px;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  section{padding:110px 0}
+  .sec-head{margin-bottom:64px}
+  .sec-head.center{text-align:center}
+  .en-label{display:inline-flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.3em;color:var(--teal);font-weight:700;margin-bottom:18px;text-transform:uppercase}
+  .en-label::before{content:"";width:32px;height:1px;background:var(--teal)}
+  h2{font-family:var(--serif-en),var(--serif-jp);font-size:36px;color:var(--navy);line-height:1.5;font-weight:600}
+  [lang="ja"] h2{font-family:var(--serif-jp);font-size:32px}
+  .lead{color:var(--gray);margin-top:18px;max-width:680px}
+  .center .lead{margin-left:auto;margin-right:auto}
+  .btn{display:inline-flex;align-items:center;gap:12px;padding:16px 40px;border-radius:2px;font-weight:700;font-size:14px;letter-spacing:.04em;transition:.3s}
+  .btn svg{width:15px;height:15px;transition:transform .3s;flex:none}
+  .btn:hover svg{transform:translateX(5px)}
+  [dir="rtl"] .btn svg{transform:scaleX(-1)}
+  [dir="rtl"] .btn:hover svg{transform:scaleX(-1) translateX(5px)}
+  .btn-primary{background:var(--navy);color:#fff}
+  .btn-primary:hover{background:var(--teal-deep)}
+  .btn-outline{border:1px solid rgba(15,40,67,.35);color:var(--navy)}
+  .btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+
+  .rv{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.2,.65,.2,1),transform .9s cubic-bezier(.2,.65,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+  #progress{position:fixed;top:0;left:0;height:2px;background:var(--teal);width:0;z-index:101}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:.35s}
+  header.scrolled{border-bottom-color:var(--line)}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;height:78px;gap:20px;transition:height .35s}
+  header.scrolled .header-inner{height:64px}
+  .logo{font-family:var(--serif-en);font-weight:600;font-size:19px;color:var(--navy);letter-spacing:.02em;flex:none}
+  .logo small{display:block;font-style:italic;font-size:11px;letter-spacing:.16em;color:var(--teal);font-weight:500;line-height:1.2}
+  nav ul{display:flex;gap:28px;list-style:none;font-size:13.5px;font-weight:500}
+  nav a{position:relative;padding-bottom:5px;color:var(--ink);white-space:nowrap}
+  nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--teal);transition:width .35s}
+  nav a:hover{color:var(--teal)}
+  nav a:hover::after{width:100%}
+  .header-right{display:flex;align-items:center;gap:18px;flex:none}
+  .header-cta .btn{padding:10px 22px;font-size:12.5px}
+
+  /* language switcher */
+  .lang-switch{display:flex;border:1px solid var(--line);border-radius:99px;overflow:hidden}
+  .lang-switch button{border:none;background:transparent;padding:7px 13px;font-size:11.5px;font-weight:700;letter-spacing:.06em;color:var(--gray-2);cursor:pointer;transition:.25s;font-family:inherit}
+  .lang-switch button:hover{color:var(--navy)}
+  .lang-switch button.active{background:var(--navy);color:#fff}
+
+  /* hero */
+  .hero{position:relative;padding:190px 0 110px;background:#fff;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(ellipse 720px 480px at 88% 8%,rgba(14,143,138,.09),transparent 62%),
+    radial-gradient(ellipse 560px 420px at 4% 100%,rgba(15,40,67,.06),transparent 60%)}
+  .hero::after{content:"";position:absolute;inset:0;background-image:
+    linear-gradient(rgba(15,40,67,.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(15,40,67,.028) 1px,transparent 1px);
+    background-size:56px 56px;mask-image:radial-gradient(ellipse 75% 65% at 60% 30%,#000 30%,transparent 75%)}
+  .hero-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:64px;align-items:center;position:relative;z-index:1}
+  .hero .tag{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 22px;font-size:12px;letter-spacing:.08em;color:var(--gray);margin-bottom:34px}
+  .hero .tag .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2.4s infinite;flex:none}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(14,143,138,.35)}50%{box-shadow:0 0 0 7px rgba(14,143,138,0)}}
+  .hero h1{font-family:var(--serif-en),var(--serif-jp);font-size:54px;line-height:1.3;color:var(--navy);font-weight:600;margin-bottom:24px}
+  [lang="ja"] .hero h1{font-family:var(--serif-jp);font-size:42px;line-height:1.6}
+  .hero h1 em{font-style:normal;position:relative;color:var(--teal)}
+  .hero h1 em::after{content:"";position:absolute;left:0;bottom:6px;width:100%;height:10px;background:var(--teal-light);z-index:-1}
+  .hero .hero-deco{font-family:var(--serif-en),var(--serif-jp);font-style:italic;font-size:16px;color:var(--gray-2);letter-spacing:.08em;margin-bottom:18px}
+  .hero p.desc{color:var(--gray);margin-bottom:42px;max-width:580px}
+  .cta-row{display:flex;gap:16px;flex-wrap:wrap}
+  .hero-doctor{background:#fff;border:1px solid var(--line);padding:30px;box-shadow:0 24px 60px rgba(15,40,67,.09);transition:transform .4s,box-shadow .4s;position:relative}
+  .hero-doctor::before{content:"";position:absolute;top:-1px;left:-1px;width:44px;height:44px;border-top:2px solid var(--teal);border-left:2px solid var(--teal)}
+  .hero-doctor::after{content:"";position:absolute;bottom:-1px;right:-1px;width:44px;height:44px;border-bottom:2px solid var(--teal);border-right:2px solid var(--teal)}
+  .hero-doctor:hover{transform:translateY(-6px);box-shadow:0 32px 70px rgba(15,40,67,.13)}
+  .hero-doctor img{margin-bottom:20px;filter:saturate(.92)}
+  .hero-doctor .hd-l{font-size:10px;letter-spacing:.28em;color:var(--teal);font-weight:700;margin-bottom:6px;text-transform:uppercase}
+  .hero-doctor .name{font-family:var(--serif-en),var(--serif-jp);font-size:21px;color:var(--navy);font-weight:600}
+  .hero-doctor .role{font-size:12px;color:var(--gray);margin:4px 0 12px;line-height:1.7}
+  .hero-doctor p{font-size:13px;color:var(--gray);margin:0;line-height:1.9}
+
+  /* bridge */
+  .bridge{background:var(--navy);padding:96px 0;position:relative;overflow:hidden}
+  .bridge::before{content:"";position:absolute;inset:0;background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:56px 56px}
+  .bridge .en-label{color:#7fd6d2}
+  .bridge .en-label::before{background:#7fd6d2}
+  .bridge h2{color:#fff}
+  .bridge-grid{display:grid;grid-template-columns:1fr 210px 1fr;align-items:center;max-width:960px;margin:64px auto 0;position:relative;z-index:1}
+  .bridge-node{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.045);padding:38px 32px;text-align:center;transition:border-color .35s,background .35s,transform .35s}
+  .bridge-node:hover{border-color:rgba(127,214,210,.6);background:rgba(255,255,255,.08);transform:translateY(-4px)}
+  .bridge-node .bn-l{font-family:var(--serif-en);font-style:italic;font-size:14px;letter-spacing:.1em;color:#7fd6d2;margin-bottom:12px}
+  .bridge-node h4{font-family:var(--serif-en),var(--serif-jp);font-size:19px;line-height:1.6;color:#fff;font-weight:600}
+  .bridge-node p{font-size:12.5px;color:#a8b8ca;margin-top:10px;line-height:1.85}
+  .bridge-center{text-align:center;position:relative;padding:0 8px}
+  .bridge-line{position:absolute;top:50%;left:-12%;right:-12%;height:1px;background:linear-gradient(90deg,transparent,#7fd6d2,transparent);overflow:hidden}
+  .bridge-line::before{content:"";position:absolute;top:0;width:64px;height:1px;background:linear-gradient(90deg,transparent,#fff,transparent);animation:flow 3s linear infinite}
+  @keyframes flow{from{left:-64px}to{left:100%}}
+  .bridge-core{position:relative;z-index:1;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:160px;height:160px;border-radius:50%;border:1px solid #7fd6d2;background:radial-gradient(circle,rgba(127,214,210,.14),rgba(15,40,67,.94) 72%);animation:breathe 4.5s ease-in-out infinite;padding:14px}
+  .bridge-core b{font-family:var(--serif-en),var(--serif-jp);color:#fff;font-size:14px;font-weight:600;line-height:1.4}
+  .bridge-core small{font-size:9.5px;color:#7fd6d2;letter-spacing:.08em;margin-top:6px;line-height:1.5}
+  @keyframes breathe{0%,100%{box-shadow:0 0 0 0 rgba(127,214,210,.16)}50%{box-shadow:0 0 0 26px rgba(127,214,210,0)}}
+
+  /* stats */
+  .stats{border-bottom:1px solid var(--line);background:#fff}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+  .stat{padding:52px 30px;border-inline-start:1px solid var(--line)}
+  .stat:first-child{border-inline-start:none}
+  .stat .v{font-family:var(--serif-en);font-size:46px;color:var(--navy);line-height:1;font-weight:600}
+  .stat .v small{font-size:17px;color:var(--teal)}
+  .stat .k{font-size:12px;color:var(--gray);margin-top:12px;line-height:1.7}
+  .stat .en{font-size:10px;letter-spacing:.2em;color:var(--gray-2);text-transform:uppercase;margin-bottom:14px;display:block}
+
+  /* services */
+  .services{background:var(--bg)}
+  .layer-block{margin-bottom:56px}
+  .layer-head{display:flex;align-items:baseline;gap:20px;padding-bottom:18px;border-bottom:1px solid var(--navy);margin-bottom:28px;flex-wrap:wrap}
+  .layer-head .ln{font-family:var(--serif-en);font-style:italic;font-size:15px;color:var(--teal);letter-spacing:.06em}
+  .layer-head h3{font-family:var(--serif-en),var(--serif-jp);font-size:23px;color:var(--navy);font-weight:600}
+  .layer-head .lh-en{margin-inline-start:auto;font-size:10.5px;letter-spacing:.2em;color:var(--gray-2);text-transform:uppercase}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .svc-grid.two{grid-template-columns:repeat(2,1fr)}
+  .svc-card{background:#fff;border:1px solid var(--line);padding:34px 30px;position:relative;transition:transform .35s,box-shadow .35s,border-color .35s;display:flex;flex-direction:column}
+  .svc-card:hover{transform:translateY(-6px);box-shadow:0 22px 48px rgba(15,40,67,.09);border-color:rgba(14,143,138,.45)}
+  .svc-card .provider{font-size:10px;letter-spacing:.18em;color:var(--gray-2);text-transform:uppercase;margin-bottom:14px}
+  .svc-card h4{font-family:var(--serif-en),var(--serif-jp);font-size:18px;color:var(--navy);font-weight:600;line-height:1.55;margin-bottom:10px}
+  .svc-card p{font-size:13px;color:var(--gray);line-height:1.9;flex:1}
+  .svc-card ul{list-style:none;margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+  .svc-card li{font-size:12.5px;padding-inline-start:16px;position:relative;margin-bottom:6px;color:var(--ink)}
+  .svc-card li::before{content:"";position:absolute;inset-inline-start:0;top:11px;width:7px;height:1.5px;background:var(--teal)}
+  .stag{position:absolute;top:22px;inset-inline-end:22px;font-size:10px;font-weight:700;letter-spacing:.1em;padding:4px 12px;border-radius:99px;text-transform:uppercase}
+  .stag.live{background:var(--teal-light);color:var(--teal-deep)}
+  .stag.grp{background:#eef1f5;color:#5d708a}
+  .svc-feature{grid-column:1/-1;display:grid;grid-template-columns:1.05fr .95fr;background:#fff;border:1px solid var(--line);transition:box-shadow .35s,border-color .35s}
+  .svc-feature:hover{box-shadow:0 22px 48px rgba(15,40,67,.09);border-color:rgba(14,143,138,.45)}
+  .svc-feature .sf-body{padding:48px 46px;position:relative}
+  .svc-feature .sf-visual{background:linear-gradient(135deg,var(--navy),var(--navy-2));display:flex;align-items:center;justify-content:center;padding:48px;position:relative;overflow:hidden}
+  .svc-feature .sf-visual::before{content:"";position:absolute;inset:0;background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px}
+  .sf-visual .sf-quote{position:relative;text-align:center}
+  .sf-visual .sf-quote .q1{font-family:var(--serif-jp);font-size:30px;color:#fff;letter-spacing:.14em;font-weight:600;line-height:2}
+  .sf-visual .sf-quote .q2{font-family:var(--serif-en);font-style:italic;font-size:14px;color:#7fd6d2;letter-spacing:.08em;margin-top:14px}
+  .sf-body .provider{font-size:10px;letter-spacing:.18em;color:var(--gray-2);text-transform:uppercase;margin-bottom:14px}
+  .sf-body h4{font-family:var(--serif-en),var(--serif-jp);font-size:26px;color:var(--navy);font-weight:600;margin-bottom:4px}
+  .sf-body .sf-sub{font-family:var(--serif-en);font-style:italic;font-size:15px;color:var(--teal);margin-bottom:18px}
+  .sf-body p{font-size:13.5px;color:var(--gray);line-height:1.95}
+  .sf-body ul{list-style:none;margin-top:20px;padding-top:20px;border-top:1px dashed var(--line);display:grid;grid-template-columns:1fr 1fr;gap:6px 20px}
+  .sf-body li{font-size:12.5px;padding-inline-start:16px;position:relative;color:var(--ink)}
+  .sf-body li::before{content:"";position:absolute;inset-inline-start:0;top:11px;width:7px;height:1.5px;background:var(--teal)}
+  .sf-body .price{margin-top:22px;font-size:12.5px;color:var(--gray)}
+  .sf-body .price b{font-family:var(--serif-en);font-size:26px;color:var(--navy);margin-inline-end:6px;font-weight:600}
+
+  /* consulting */
+  .consul-list{border-top:1px solid var(--line)}
+  .consul-row{display:grid;grid-template-columns:130px 1fr 300px;gap:36px;padding:52px 8px;border-bottom:1px solid var(--line);align-items:start;transition:background .35s}
+  .consul-row:hover{background:var(--bg)}
+  .consul-row .cn{font-family:var(--serif-en);font-size:40px;color:var(--line);font-weight:500;line-height:1;transition:color .35s}
+  .consul-row:hover .cn{color:var(--teal)}
+  .consul-row h3{font-family:var(--serif-en),var(--serif-jp);font-size:21px;color:var(--navy);font-weight:600;margin-bottom:6px}
+  .consul-row .c-en{font-family:var(--serif-en);font-style:italic;font-size:13px;color:var(--teal);margin-bottom:14px}
+  .consul-row p{font-size:14px;color:var(--gray)}
+  .consul-row ul{list-style:none;padding-top:6px}
+  .consul-row li{font-size:13px;padding:9px 0;padding-inline-start:20px;position:relative;border-bottom:1px dashed var(--line);color:var(--ink)}
+  .consul-row li:last-child{border-bottom:none}
+  .consul-row li::before{content:"";position:absolute;inset-inline-start:0;top:19px;width:8px;height:1.5px;background:var(--teal)}
+
+  /* fields */
+  .fields{background:var(--bg)}
+  .axis-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .axis-card{background:#fff;border:1px solid var(--line);padding:48px 42px;position:relative;transition:transform .35s,box-shadow .35s}
+  .axis-card:hover{transform:translateY(-6px);box-shadow:0 22px 48px rgba(15,40,67,.09)}
+  .axis-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--teal),transparent)}
+  .axis-card .num{font-family:var(--serif-en);font-style:italic;font-size:14px;color:var(--teal);letter-spacing:.08em}
+  .axis-card h3{font-family:var(--serif-en),var(--serif-jp);font-size:24px;color:var(--navy);margin:12px 0 14px;font-weight:600}
+  .axis-card p{font-size:14px;color:var(--gray)}
+  .axis-card ul{list-style:none;margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}
+  .axis-card li{padding-inline-start:20px;position:relative;margin-bottom:9px;font-size:13.5px}
+  .axis-card li::before{content:"";position:absolute;inset-inline-start:0;top:12px;width:8px;height:1.5px;background:var(--teal)}
+  .badge{position:absolute;top:26px;inset-inline-end:26px;font-size:10px;font-weight:700;letter-spacing:.1em;padding:4px 13px;border-radius:99px;text-transform:uppercase}
+  .badge.now{background:var(--teal-light);color:var(--teal-deep)}
+  .badge.soon{background:#f4efe2;color:#96721c}
+
+  /* doctor */
+  .doctor-card{display:grid;grid-template-columns:280px 1fr;gap:52px;background:#fff;border:1px solid var(--line);padding:56px;align-items:start;position:relative}
+  .doctor-card::before{content:"";position:absolute;top:-1px;left:-1px;width:52px;height:52px;border-top:2px solid var(--teal);border-left:2px solid var(--teal)}
+  .doctor-card::after{content:"";position:absolute;bottom:-1px;right:-1px;width:52px;height:52px;border-bottom:2px solid var(--teal);border-right:2px solid var(--teal)}
+  .doctor-card img{filter:saturate(.92)}
+  .doctor-card h3{font-family:var(--serif-en),var(--serif-jp);font-size:27px;color:var(--navy);font-weight:600}
+  .doctor-card h3 span{font-family:var(--serif-en);font-style:italic;font-size:15px;color:var(--gray-2);margin-inline-start:12px;font-weight:500}
+  .doctor-card .title{font-size:12.5px;color:var(--teal);font-weight:700;margin:8px 0 20px}
+  .doctor-card p{font-size:13.5px;color:var(--gray);margin-bottom:14px}
+  .cred{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .cred span{border:1px solid var(--teal);color:var(--teal-deep);font-size:11.5px;font-weight:700;padding:5px 15px;border-radius:99px;background:#fff}
+  .advisor-slot{margin-top:26px;border:1px dashed var(--gray-2);padding:30px;text-align:center;color:var(--gray);font-size:13px}
+
+  /* flow */
+  .flow-grid{display:grid;grid-template-columns:repeat(4,1fr);counter-reset:step;border:1px solid var(--line)}
+  .flow-card{padding:44px 30px;background:#fff;border-inline-start:1px solid var(--line);transition:background .3s}
+  .flow-card:first-child{border-inline-start:none}
+  .flow-card:hover{background:var(--bg)}
+  .flow-card::before{counter-increment:step;content:"0" counter(step);font-family:var(--serif-en);font-size:30px;color:var(--teal);display:block;margin-bottom:14px;font-weight:600}
+  .flow-card h4{font-family:var(--serif-en),var(--serif-jp);font-size:17px;color:var(--navy);margin-bottom:10px;font-weight:600}
+  .flow-card p{font-size:12.5px;color:var(--gray)}
+
+  /* faq */
+  .faq-list{max-width:840px;margin:0 auto}
+  details{border-bottom:1px solid var(--line)}
+  details:first-of-type{border-top:1px solid var(--line)}
+  summary{padding:26px 60px 26px 4px;font-weight:600;cursor:pointer;color:var(--navy);list-style:none;position:relative;font-size:15px;transition:color .3s}
+  [dir="rtl"] summary{padding:26px 4px 26px 60px}
+  summary:hover{color:var(--teal)}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"";position:absolute;inset-inline-end:16px;top:50%;width:12px;height:12px;border-right:1.5px solid var(--teal);border-bottom:1.5px solid var(--teal);transform:translateY(-70%) rotate(45deg);transition:transform .35s}
+  details[open] summary::after{transform:translateY(-30%) rotate(225deg)}
+  .faq-body{overflow:hidden;max-height:0;transition:max-height .5s cubic-bezier(.2,.65,.2,1)}
+  .faq-body p{padding:0 4px 28px;font-size:14px;color:var(--gray);max-width:780px}
+
+  /* cta */
+  .cta-band{background:var(--navy);color:#fff;text-align:center;padding:110px 28px;position:relative;overflow:hidden}
+  .cta-band::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 640px 380px at 50% 115%,rgba(127,214,210,.14),transparent 65%)}
+  .cta-band .en-label{color:#7fd6d2;justify-content:center}
+  .cta-band .en-label::before{background:#7fd6d2}
+  .cta-band h2{color:#fff;margin-bottom:16px;position:relative}
+  .cta-band p{color:#a8b8ca;margin-bottom:44px;position:relative}
+  .cta-band .btn-primary{background:#fff;color:var(--navy);position:relative}
+  .cta-band .btn-primary:hover{background:#7fd6d2}
+
+  footer{background:#0a1d33;color:#7e91a7;padding:56px 0 44px;font-size:13px}
+  .footer-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:22px}
+  .footer-logo{font-family:var(--serif-en);font-size:18px;color:#fff;font-weight:600}
+  .footer-logo small{display:block;font-style:italic;font-size:11px;color:#7fd6d2;letter-spacing:.14em;font-weight:500}
+  footer a:hover{color:#fff}
+  .footer-links{display:flex;gap:26px;flex-wrap:wrap}
+  .footer-note{margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);font-size:11.5px;color:#54687e;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  @media(max-width:960px){
+    section{padding:80px 0}
+    .hero{padding:150px 0 80px}
+    .hero-grid,.axis-grid,.doctor-card{grid-template-columns:1fr}
+    .svc-grid,.svc-grid.two{grid-template-columns:1fr}
+    .svc-feature{grid-template-columns:1fr}
+    .sf-body ul{grid-template-columns:1fr}
+    .consul-row{grid-template-columns:1fr;gap:18px}
+    .flow-grid{grid-template-columns:1fr 1fr}
+    .stats-grid{grid-template-columns:1fr 1fr}
+    .stat{border-inline-start:none;border-top:1px solid var(--line)}
+    .bridge-grid{grid-template-columns:1fr;gap:22px}
+    .bridge-line{display:none}
+    .hero h1{font-size:34px!important}
+    h2{font-size:27px!important}
+    nav{display:none}
+    .layer-head .lh-en{margin-inline-start:0;width:100%}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header id="hd">
+  <div class="wrap header-inner">
+    <a href="#" class="logo">AI Mentalhealth<small data-i18n="tagline">Bridging Medicine &amp; AI</small></a>
+    <nav>
+      <ul>
+        <li><a href="#services" data-i18n="nav1">Services</a></li>
+        <li><a href="#consulting" data-i18n="nav2">Consulting</a></li>
+        <li><a href="#fields" data-i18n="nav3">Fields</a></li>
+        <li><a href="#doctor" data-i18n="nav4">Supervision</a></li>
+        <li><a href="#faq" data-i18n="nav5">FAQ</a></li>
+      </ul>
+    </nav>
+    <div class="header-right">
+      <div class="lang-switch" id="langSwitch">
+        <button data-lang="en" class="active">EN</button>
+        <button data-lang="he">עב</button>
+        <button data-lang="fr">FR</button>
+        <button data-lang="ja">日本語</button>
+      </div>
+      <div class="header-cta">
+        <a class="btn btn-primary" href="https://ai-mentalhealth.clinic/contact-us/"><span data-i18n="navCta">Contact</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="tag rv"><span class="dot"></span><span data-i18n="heroTag">Psychiatrist Expertise × AI Technology</span></span>
+      <div class="hero-deco rv d1" data-i18n="heroDeco">Bridging Clinical Knowledge and AI Technology</div>
+      <h1 class="rv d1" data-i18n="heroH1">The bridge between<br><em>medicine</em> and AI.</h1>
+      <p class="desc rv d2" data-i18n="heroDesc">From localizing the world's leading mental-health AI for the Japanese market, to medical supervision of AI products and hands-on deployment in companies and care facilities — practicing psychiatrists at the forefront of research close the gap between technology and medicine.</p>
+      <div class="cta-row rv d3">
+        <a class="btn btn-primary" href="https://ai-mentalhealth.clinic/contact-us/"><span data-i18n="ctaConsult">Talk to Us</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-outline" href="https://ai-mentalhealth.clinic/contact-us/"><span data-i18n="ctaDownload">Download Materials</span></a>
+      </div>
+    </div>
+    <div class="hero-doctor rv d2">
+      <img src="https://ai-mentalhealth.clinic/wp-content/themes/wpbase/assets/images/avata.jpg" alt="Dr. Yuta Aoki">
+      <div class="hd-l" data-i18n="docL">Medical Supervision</div>
+      <div class="name" data-i18n="docName">Yuta Aoki, MD, PhD</div>
+      <div class="role" data-i18n="docRole">Psychiatrist / Director, Aoki Clinic / Lecturer, Showa Medical University</div>
+      <p data-i18n="docDesc">Every service is designed under the supervision of a psychiatrist who supports 800+ patients a year and leads international research teams.</p>
+    </div>
+  </div>
+</div>
+
+<div class="bridge" id="bridge">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="en-label">The Bridge</span>
+      <h2 data-i18n="bridgeH2">Connecting global technology<br>and Japanese care — through medicine.</h2>
+    </div>
+    <div class="bridge-grid rv">
+      <div class="bridge-node">
+        <div class="bn-l">Global AI Solutions</div>
+        <h4 data-i18n="bh1">The world's leading<br>mental-health AI</h4>
+        <p data-i18n="bp1">Technologies and business models pioneered in the US, Europe and Israel</p>
+      </div>
+      <div class="bridge-center">
+        <div class="bridge-line"></div>
+        <div class="bridge-core"><b>AI Mentalhealth</b><small data-i18n="coreS">Medical supervision × Localization</small></div>
+      </div>
+      <div class="bridge-node">
+        <div class="bn-l">Japanese Market</div>
+        <h4 data-i18n="bh2">Japan's companies, healthcare<br>and elder-care settings</h4>
+        <p data-i18n="bp2">Safe social implementation adapted to regulation, language and clinical culture</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="wrap stats-grid">
+    <div class="stat rv"><span class="en">Clinical Team</span><div class="v"><span class="count" data-to="9">0</span><small> MDs</small></div><div class="k" data-i18n="st1">Physicians at our supervising clinic</div></div>
+    <div class="stat rv d1"><span class="en">Patients / Year</span><div class="v"><span class="count" data-to="800">0</span><small>+</small></div><div class="k" data-i18n="st2">Patients supported per year</div></div>
+    <div class="stat rv d2"><span class="en">Corporate Clients</span><div class="v"><span class="count" data-to="30">0</span><small>+</small></div><div class="k" data-i18n="st3">Client sites, group occupational health</div></div>
+    <div class="stat rv d3"><span class="en">Research</span><div class="v">AJP</div><div class="k" data-i18n="st4">Published in top international journals</div></div>
+  </div>
+</div>
+
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="en-label">Our Services</span>
+      <h2 data-i18n="svcH2">From the clinic, the workplace,<br>and technology.</h2>
+      <p class="lead" data-i18n="svcLead">Corporate mental-health solutions powered by AI, and clinical care on the ground. Our uniqueness lies in operating both — technology and real medical practice — as one integrated group.</p>
+    </div>
+
+    <div class="layer-block rv">
+      <div class="layer-head">
+        <span class="ln">01</span>
+        <h3 data-i18n="l2h">Corporate Solutions</h3>
+        <span class="lh-en">Corporate — Workforce Mental Health &amp; Productivity</span>
+      </div>
+      <div class="svc-grid">
+        <div class="svc-feature">
+          <div class="sf-body">
+            <span class="stag live" data-i18n="tagLive">Live</span>
+            <div class="provider">AI Mental Health</div>
+            <h4>Dr. Avatar — <span data-i18n="featH4">Next-Generation EAP</span></h4>
+            <div class="sf-sub">Talk. Measure. Care.</div>
+            <p data-i18n="featDesc">24/7 AI mental-health support powered by CBT-based LLM counseling. Daily, natural conversation detects changes in wellbeing, visualizes them, and responds with expert-informed care — discovery and support completed within a single dialogue experience.</p>
+            <ul>
+              <li data-i18n="fb1">CBT-based LLM counseling</li>
+              <li data-i18n="fb2">Available 24/7, 365 days</li>
+              <li data-i18n="fb3">Personal condition dashboards</li>
+              <li data-i18n="fb4">Organizational trend reports for HR</li>
+              <li data-i18n="fb5">Lawyer-supervised legal reports</li>
+              <li data-i18n="fb6">Human × AI for maximum accessibility</li>
+            </ul>
+            <div class="price"><b>¥4,980</b><span data-i18n="featPrice">/ employee / year (excl. tax) — from ¥415 per month</span></div>
+          </div>
+          <div class="sf-visual">
+            <div class="sf-quote">
+              <div class="q1">話す。測る。<br>寄り添う。</div>
+              <div class="q2">AI-Powered Employee Assistance</div>
+            </div>
+          </div>
+        </div>
+        <div class="svc-card">
+          <span class="stag grp" data-i18n="tagGrp">Group</span>
+          <div class="provider">Cognifort</div>
+          <h4 data-i18n="c1h">Occupational Health Services</h4>
+          <p data-i18n="c1p">Experienced occupational physicians and labor-hygiene consultants serving roughly 30 client sites. Not mere legal compliance — occupational health that serves management.</p>
+          <ul>
+            <li data-i18n="c1b1">Audit firms, IT, wholesale and more</li>
+            <li data-i18n="c1b2">Physician interviews &amp; hygiene committees</li>
+            <li data-i18n="c1b3">Linked to management priorities</li>
+          </ul>
+        </div>
+        <div class="svc-card">
+          <span class="stag grp" data-i18n="tagGrp">Group</span>
+          <div class="provider">Cognifort</div>
+          <h4 data-i18n="c2h">Analytics — Stress Check</h4>
+          <p data-i18n="c2p">From statutory stress checks to multivariate group analysis and actionable improvement reporting. We do not stop at measuring — we clarify what to change.</p>
+          <ul>
+            <li data-i18n="c2b1">Statutory stress-check delivery</li>
+            <li data-i18n="c2b2">Proprietary multivariate group analysis</li>
+            <li data-i18n="c2b3">Reports that translate into action</li>
+          </ul>
+        </div>
+        <div class="svc-card">
+          <span class="stag grp" data-i18n="tagGrp">Group</span>
+          <div class="provider">Cognifort</div>
+          <h4 data-i18n="c3h">EAP — Employee Assistance</h4>
+          <p data-i18n="c3p">Online counseling by licensed clinical psychologists. CBT-based coping skills and long-term relapse prevention that turn consultation into change.</p>
+          <ul>
+            <li data-i18n="c3b1">CBT-based skill building</li>
+            <li data-i18n="c3b2">Mid-to-long-term continuous support</li>
+            <li data-i18n="c3b3">Coordination with physicians &amp; HR</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer-block rv" style="margin-bottom:0">
+      <div class="layer-head">
+        <span class="ln">02</span>
+        <h3 data-i18n="l1h">Clinical &amp; Care</h3>
+        <span class="lh-en">Clinical — Individual Care &amp; Community Health</span>
+      </div>
+      <div class="svc-grid two">
+        <div class="svc-card">
+          <span class="stag grp" data-i18n="tagGrp">Group</span>
+          <div class="provider">Syrup — Daikanyama, Tokyo</div>
+          <h4 data-i18n="s1h">Home-Visit Nursing Station</h4>
+          <p data-i18n="s1p">Home-visit nursing centered on psychiatric care, supporting recovery at home. Community-rooted care realizing "medicine within daily life."</p>
+          <ul>
+            <li data-i18n="s1b1">Psychiatric home-visit nursing</li>
+            <li data-i18n="s1b2">Multidisciplinary team support</li>
+            <li data-i18n="s1b3">Stable continuation of home care</li>
+          </ul>
+        </div>
+        <div class="svc-card">
+          <span class="stag grp" data-i18n="tagGrp">Group</span>
+          <div class="provider">Syrup — Hamamatsucho, Tokyo</div>
+          <h4 data-i18n="s2h">Home-Care Support Office</h4>
+          <p data-i18n="s2p">Care management that optimizes life at home. Companion-style support so that illness and disability never take life away from the living.</p>
+          <ul>
+            <li data-i18n="s2b1">Individual care planning &amp; management</li>
+            <li data-i18n="s2b2">Coordination with care providers</li>
+            <li data-i18n="s2b3">Ongoing consultation for families</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="consulting">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="en-label">Consulting</span>
+      <h2 data-i18n="conH2">Three consulting practices<br>grounded in clinical expertise</h2>
+      <p class="lead" data-i18n="conLead">For global healthcare companies entering Japan, and for organizations building AI in mental health — market access, localization and clinical connections that only a group with real medical operations can provide.</p>
+    </div>
+    <div class="consul-list">
+      <div class="consul-row rv">
+        <div class="cn">01</div>
+        <div>
+          <h3 data-i18n="con1h">Japan market entry for global healthcare companies</h3>
+          <div class="c-en">Global to Japan</div>
+          <p data-i18n="con1p">End-to-end support for overseas healthcare and AI companies entering the Japanese market. We design the entry strategy, navigate regulation, and open doors to enterprise clients and partners — acting as your first team on the ground in Tokyo.</p>
+        </div>
+        <ul>
+          <li data-i18n="con1b1">Market assessment &amp; entry strategy</li>
+          <li data-i18n="con1b2">Regulatory &amp; compliance navigation (PMD Act, APPI)</li>
+          <li data-i18n="con1b3">Partner development &amp; enterprise client matching</li>
+          <li data-i18n="con1b4">Local presence support — office &amp; bilingual team</li>
+        </ul>
+      </div>
+      <div class="consul-row rv">
+        <div class="cn">02</div>
+        <div>
+          <h3 data-i18n="con2h">Business localization for the Japanese market</h3>
+          <div class="c-en">Beyond Translation</div>
+          <p data-i18n="con2p">Localization that goes deeper than language. We redesign products and services for Japanese clinical culture, corporate practice and safety expectations — with psychiatrists supervising dialogue design and crisis-response protocols.</p>
+        </div>
+        <ul>
+          <li data-i18n="con2b1">Product &amp; UX localization for Japan</li>
+          <li data-i18n="con2b2">Psychiatrist supervision of dialogue &amp; prompts</li>
+          <li data-i18n="con2b3">Suicide-risk &amp; crisis-response design</li>
+          <li data-i18n="con2b4">Safety &amp; ethics review to Japanese standards</li>
+        </ul>
+      </div>
+      <div class="consul-row rv">
+        <div class="cn">03</div>
+        <div>
+          <h3 data-i18n="con3h">Data collaboration with medical institutions</h3>
+          <div class="c-en">Clinical Networks &amp; Data</div>
+          <p data-i18n="con3p">Japan holds some of the world's richest medical data — imaging, health checkups, clinical records. We connect AI companies with medical institutions: joint research, clinical validation, and privacy-compliant data partnerships that build real evidence.</p>
+        </div>
+        <ul>
+          <li data-i18n="con3b1">Joint research with medical institutions</li>
+          <li data-i18n="con3b2">PoC &amp; clinical validation design</li>
+          <li data-i18n="con3b3">Privacy-compliant data partnership schemes</li>
+          <li data-i18n="con3b4">Evidence building for the Japanese market</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fields" id="fields">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="en-label">Fields</span>
+      <h2 data-i18n="fldH2">From the workplace to senior care.</h2>
+      <p class="lead" data-i18n="fldLead">One medically supervised AI platform, delivered to two frontlines.</p>
+    </div>
+    <div class="axis-grid">
+      <div class="axis-card rv">
+        <span class="badge now" data-i18n="tagLive">Live</span>
+        <span class="num">01 — For Enterprise</span>
+        <h3 data-i18n="f1h">For Companies &amp; Organizations</h3>
+        <p data-i18n="f1p">Catch employee distress preventively through daily AI dialogue — before it surfaces. Connected to HR programs, uniting individual support with organizational improvement.</p>
+        <ul>
+          <li data-i18n="f1b1">Daily self-care through AI dialogue</li>
+          <li data-i18n="f1b2">Individual &amp; organizational visibility</li>
+          <li data-i18n="f1b3">Connection to program &amp; KPI design</li>
+        </ul>
+      </div>
+      <div class="axis-card rv d1">
+        <span class="badge soon" data-i18n="tagSoon">Coming Soon</span>
+        <span class="num">02 — For Senior Care</span>
+        <h3 data-i18n="f2h">For Seniors &amp; Care Facilities</h3>
+        <p data-i18n="f2p">Bringing medically supervised AI dialogue to care facilities and homes. Daily conversation accompanies loneliness and emotional change, creating awareness for staff and family.</p>
+        <ul>
+          <li data-i18n="f2b1">Listening &amp; daily conversation via AI avatars</li>
+          <li data-i18n="f2b2">Detecting &amp; sharing signs of change</li>
+          <li data-i18n="f2b3">Deployment design for facilities</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="doctor">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="en-label">Medical Supervision</span>
+      <h2 data-i18n="docH2">Every service, psychiatrist-supervised.</h2>
+      <p class="lead" data-i18n="docLead">The credibility of a bridge is decided by its supervision. Experts at the forefront of clinical practice and research are involved in the design of every service.</p>
+    </div>
+    <div class="doctor-card rv">
+      <img src="https://ai-mentalhealth.clinic/wp-content/themes/wpbase/assets/images/avata.jpg" alt="Dr. Yuta Aoki">
+      <div>
+        <h3><span data-i18n="docName2">Yuta Aoki</span><span>MD, PhD</span></h3>
+        <div class="title" data-i18n="docTitle">Psychiatrist / Director, Aoki Clinic / Adjunct Lecturer, Showa Medical University</div>
+        <p data-i18n="docP1">Trained at the University of Tokyo Hospital, then conducted psychiatric research at NYU Langone Medical Center. Founded Aoki Clinic in 2022, supporting 800+ patients a year with a team of nine physicians. Active across medicine, industry and research — corporate mental-health support in occupational health, EAP and stress checks, and supervision of online CBT.</p>
+        <p data-i18n="docP2">Leads international research teams publishing in top journals including The American Journal of Psychiatry.</p>
+        <div class="cred">
+          <span data-i18n="cred1">#3 in Japan — ADHD (Expertscape)</span>
+          <span data-i18n="cred2">Top 0.6% worldwide — Autism Spectrum</span>
+          <span data-i18n="cred3">Published in leading journals</span>
+        </div>
+      </div>
+    </div>
+    <div class="advisor-slot rv" data-i18n="advisor">
+      Our advisory network is expanding — including specialist supervision in suicide prevention with domestic research institutions, and collaboration with overseas researchers. Details to be announced.
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="en-label">Flow</span>
+      <h2 data-i18n="flowH2">How we work</h2>
+    </div>
+    <div class="flow-grid rv">
+      <div class="flow-card"><h4 data-i18n="fl1h">Interview</h4><p data-i18n="fl1p">We listen to your challenges and current programs or products</p></div>
+      <div class="flow-card"><h4 data-i18n="fl2h">Diagnosis &amp; Proposal</h4><p data-i18n="fl2p">Program, supervision and market-entry design based on clinical expertise</p></div>
+      <div class="flow-card"><h4 data-i18n="fl3h">Deploy &amp; Pilot</h4><p data-i18n="fl3p">Start small with a PoC or full deployment</p></div>
+      <div class="flow-card"><h4 data-i18n="fl4h">Embed &amp; Improve</h4><p data-i18n="fl4p">Continuous KPI reviews and improvement support</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="fields" id="faq" style="padding-top:90px">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="en-label">FAQ</span>
+      <h2 data-i18n="faqH2">Questions</h2>
+    </div>
+    <div class="faq-list rv">
+      <details>
+        <summary data-i18n="q1">What kinds of organizations do you serve?</summary>
+        <div class="faq-body"><p data-i18n="a1">Companies of all sizes working on employee mental health, senior-care facilities and providers, and domestic or international companies offering AI services in the mental-health field.</p></div>
+      </details>
+      <details>
+        <summary data-i18n="q2">We are an overseas company — can you support our Japan market entry?</summary>
+        <div class="faq-body"><p data-i18n="a2">Yes. We provide end-to-end support for entering the Japanese market: localization, medical supervision, regulatory guidance, and partner and client development. Consultations are available in English.</p></div>
+      </details>
+      <details>
+        <summary data-i18n="q3">Can we engage you for consulting only?</summary>
+        <div class="faq-body"><p data-i18n="a3">Yes. Product deployment is not a prerequisite — program diagnosis, KPI design, PoC support and medical supervision of AI services are all available as standalone engagements.</p></div>
+      </details>
+      <details>
+        <summary data-i18n="q4">Does the AI make medical diagnoses?</summary>
+        <div class="faq-body"><p data-i18n="a4">No. Our services do not perform medical diagnosis. Multimodal analysis informed by expert knowledge aims to detect early signs of change in mental wellbeing. Details are explained at deployment.</p></div>
+      </details>
+      <details>
+        <summary data-i18n="q5">How is personal data handled?</summary>
+        <div class="faq-body"><p data-i18n="a5">Conversations are encrypted and never provided to employers or facilities in personally identifiable form. Only statistically analyzed, organization-level trends are shared.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band" id="contact">
+  <span class="en-label rv">Contact</span>
+  <h2 class="rv d1" data-i18n="ctaH2">Tell us where you are today.</h2>
+  <p class="rv d2" data-i18n="ctaP">From program reviews and AI deployment, to Japan market entry and medical supervision — answered with the knowledge of practicing psychiatrists.</p>
+  <a class="btn btn-primary rv d3" href="https://ai-mentalhealth.clinic/contact-us/"><span data-i18n="ctaBtn">Book a Free Consultation</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-logo">AI Mentalhealth<small data-i18n="tagline2">Bridging Medicine &amp; AI</small></div>
+      <div class="footer-links">
+        <a href="https://ai-mentalhealth.clinic/contact" data-i18n="ft1">Contact</a>
+        <a href="https://ai-mentalhealth.clinic/privacy-policy" data-i18n="ft2">Privacy Policy</a>
+        <a href="https://ai-mentalhealth.clinic/terms-of-service" data-i18n="ft3">Terms of Service</a>
+        <a href="https://ai-mentalhealth.clinic/infomation" data-i18n="ft4">Commercial Disclosure</a>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>© 2026 AI Mentalhealth / Dr.Avatar</span>
+      <span data-i18n="ftNote">Group: Cognifort Inc. &amp; Syrup (home-visit nursing / home-care support)</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- i18n dictionaries ---------- */
+var I18N = {
+  he:{
+    dir:"rtl",
+    tagline:"מגשרים בין רפואה ל-AI",
+    nav1:"שירותים",nav2:"ייעוץ",nav3:"תחומים",nav4:"פיקוח רפואי",nav5:"שאלות",navCta:"צרו קשר",
+    heroTag:"מומחיות פסיכיאטרית × טכנולוגיית AI",
+    heroDeco:"Bridging Clinical Knowledge and AI Technology",
+    heroH1:"הגשר בין <em>רפואה</em><br>לבינה מלאכותית.",
+    heroDesc:"מלוקליזציה של פתרונות ה-AI המובילים בעולם לבריאות הנפש עבור השוק היפני, דרך פיקוח רפואי על מוצרי AI ועד ליווי הטמעה בחברות ובמוסדות סיעוד — פסיכיאטרים פעילים בחזית המחקר סוגרים את הפער בין טכנולוגיה לרפואה.",
+    ctaConsult:"דברו איתנו",ctaDownload:"הורדת חומרים",
+    docL:"פיקוח רפואי",docName:"ד\"ר יוטה אאוקי, MD, PhD",
+    docRole:"פסיכיאטר / מנהל מרפאת אאוקי / מרצה, אוניברסיטת שווא לרפואה",
+    docDesc:"כל שירות מתוכנן בפיקוח פסיכיאטר המטפל ביותר מ-800 מטופלים בשנה ומוביל צוותי מחקר בינלאומיים.",
+    bridgeH2:"מחברים טכנולוגיה גלובלית<br>לשטח היפני — דרך הרפואה.",
+    bh1:"פתרונות ה-AI המובילים<br>בעולם לבריאות הנפש",
+    bp1:"טכנולוגיות ומודלים עסקיים מארה\"ב, אירופה וישראל",
+    coreS:"פיקוח רפואי × לוקליזציה",
+    bh2:"חברות, מערכת הבריאות<br>ומוסדות הסיעוד ביפן",
+    bp2:"הטמעה בטוחה, מותאמת לרגולציה, לשפה ולתרבות הקלינית",
+    st1:"רופאים במרפאה המפקחת",st2:"מטופלים בשנה",st3:"אתרי לקוחות, רפואה תעסוקתית",st4:"פרסומים בכתבי עת מובילים",
+    svcH2:"מהקליניקה, ממקום העבודה,<br>ומהטכנולוגיה.",
+    svcLead:"פתרונות בריאות נפש ארגוניים מבוססי AI, וטיפול קליני בשטח. הייחודיות שלנו — הפעלת שניהם, טכנולוגיה ופרקטיקה רפואית אמיתית, כקבוצה משולבת אחת.",
+    l3h:"AI ורווחה דיגיטלית",l2h:"פתרונות לארגונים",l1h:"רפואה וסיעוד",
+    tagLive:"פעיל",tagGrp:"קבוצה",tagSoon:"בקרוב",
+    featH4:"EAP הדור הבא",
+    featDesc:"תמיכה נפשית מבוססת AI, זמינה 24/7, המונעת על ידי ייעוץ LLM מבוסס CBT. שיחה יומיומית טבעית מזהה שינויים, ממחישה אותם ומגיבה בליווי מקצועי — גילוי ותמיכה בחוויית דיאלוג אחת.",
+    fb1:"ייעוץ LLM מבוסס CBT",fb2:"זמינות 24/7, 365 ימים",fb3:"לוחות מחוונים אישיים",fb4:"דוחות מגמה ארגוניים ל-HR",fb5:"דוחות משפטיים בפיקוח עו\"ד",fb6:"אדם × AI לנגישות מרבית",
+    featPrice:"/ עובד / שנה (לא כולל מס) — החל מ-415 ין לחודש",
+    c1h:"שירותי רפואה תעסוקתית",
+    c1p:"רופאים תעסוקתיים ויועצי גהות מנוסים, המשרתים כ-30 אתרי לקוחות. לא רק ציות לחוק — רפואה תעסוקתית שמשרתת את ההנהלה.",
+    c1b1:"פירמות ביקורת, IT, סיטונאות ועוד",c1b2:"ראיונות רופא וועדות גהות",c1b3:"חיבור לסדרי העדיפויות הניהוליים",
+    c2h:"אנליטיקה — בדיקת לחץ",
+    c2p:"מבדיקות לחץ סטטוטוריות ועד ניתוח קבוצתי רב-משתני ודוחות שיפור ישימים. לא מסתפקים במדידה — מבהירים מה לשנות.",
+    c2b1:"ביצוע בדיקות לחץ סטטוטוריות",c2b2:"ניתוח קבוצתי רב-משתני ייחודי",c2b3:"דוחות שמתורגמים לפעולה",
+    c3h:"EAP — תמיכה בעובדים",
+    c3p:"ייעוץ מקוון על ידי פסיכולוגים קליניים מוסמכים. מיומנויות התמודדות מבוססות CBT ומניעת הישנות לטווח ארוך — מהתייעצות לשינוי.",
+    c3b1:"בניית מיומנויות מבוססות CBT",c3b2:"ליווי מתמשך לטווח בינוני-ארוך",c3b3:"תיאום עם רופאים ו-HR",
+    s1h:"תחנת סיעוד ביתי",
+    s1p:"סיעוד ביתי במוקד פסיכיאטרי, התומך בהחלמה בבית. טיפול קהילתי המגשים \"רפואה בתוך חיי היומיום\".",
+    s1b1:"סיעוד ביתי פסיכיאטרי",s1b2:"תמיכה של צוות רב-מקצועי",s1b3:"המשכיות יציבה של טיפול ביתי",
+    s2h:"משרד תמיכה בטיפול ביתי",
+    s2p:"ניהול טיפול הממטב את החיים בבית. ליווי צמוד כדי שמחלה ומוגבלות לעולם לא ייקחו את החיים מהחיים.",
+    s2b1:"תכנון וניהול טיפול אישי",s2b2:"תיאום עם ספקי טיפול",s2b3:"ייעוץ מתמשך למשפחות",
+    conH2:"שלושה תחומי ייעוץ<br>המבוססים על מומחיות קלינית",
+    conLead:"לחברות בריאות גלובליות הנכנסות ליפן ולארגונים המפתחים AI לבריאות הנפש — גישה לשוק, לוקליזציה וחיבורים קליניים, כפי שרק קבוצה עם פעילות רפואית אמיתית יכולה להציע.",
+    con1h:"ליווי כניסה לשוק היפני לחברות בריאות גלובליות",
+    con1p:"ליווי מקצה לקצה לחברות בריאות ו-AI זרות הנכנסות לשוק היפני: עיצוב אסטרטגיית הכניסה, ניווט רגולטורי ופתיחת דלתות ללקוחות ארגוניים ולשותפים — הצוות הראשון שלכם בשטח, בטוקיו.",
+    con1b1:"הערכת שוק ואסטרטגיית כניסה",con1b2:"ניווט רגולציה וציות (PMD Act, APPI)",con1b3:"פיתוח שותפים והתאמת לקוחות ארגוניים",con1b4:"הקמת נוכחות מקומית — משרד וצוות דו-לשוני",
+    con2h:"לוקליזציה עסקית לשוק היפני",
+    con2p:"לוקליזציה עמוקה מהשפה: עיצוב מחדש של מוצרים ושירותים לתרבות הקלינית, לפרקטיקה הארגונית ולדרישות הבטיחות ביפן — בפיקוח פסיכיאטרים על עיצוב הדיאלוג ופרוטוקולי המשבר.",
+    con2b1:"לוקליזציית מוצר ו-UX ליפן",con2b2:"פיקוח פסיכיאטרי על דיאלוג ופרומפטים",con2b3:"עיצוב מענה לסיכון אובדני ומשבר",con2b4:"סקירת בטיחות ואתיקה בתקן יפני",
+    con3h:"שיתוף נתונים עם מוסדות רפואיים",
+    con3p:"יפן מחזיקה בנתונים רפואיים מהעשירים בעולם — הדמיה, בדיקות תקופתיות ורשומות קליניות. אנו מחברים חברות AI למוסדות רפואיים: מחקר משותף, ולידציה קלינית ושותפויות נתונים תואמות פרטיות, הבונות ראיות אמיתיות.",
+    con3b1:"מחקר משותף עם מוסדות רפואיים",con3b2:"תכנון PoC וולידציה קלינית",con3b3:"שותפויות נתונים תואמות פרטיות",con3b4:"בניית ראיות לשוק היפני",
+    fldH2:"ממקום העבודה ועד לטיפול בקשישים.",
+    fldLead:"פלטפורמת AI אחת בפיקוח רפואי, לשתי חזיתות.",
+    f1h:"לחברות וארגונים",
+    f1p:"זיהוי מונע של מצוקת עובדים דרך דיאלוג AI יומיומי — לפני שהיא פורצת. מחובר לתוכניות HR, מאחד תמיכה אישית עם שיפור ארגוני.",
+    f1b1:"טיפוח עצמי יומיומי בדיאלוג AI",f1b2:"נראות אישית וארגונית",f1b3:"חיבור לעיצוב תוכניות ו-KPI",
+    f2h:"לקשישים ולמוסדות סיעוד",
+    f2p:"מביאים דיאלוג AI בפיקוח רפואי למוסדות סיעוד ולבתים. שיחה יומיומית מלווה בדידות ושינוי רגשי, ומייצרת מודעות לצוות ולמשפחה.",
+    f2b1:"הקשבה ושיחה יומית עם אווטארים",f2b2:"זיהוי ושיתוף סימני שינוי",f2b3:"עיצוב הטמעה למוסדות",
+    docH2:"כל שירות — בפיקוח פסיכיאטרי.",
+    docLead:"אמינותו של גשר נקבעת על ידי הפיקוח עליו. מומחים בחזית הקליניקה והמחקר מעורבים בעיצוב כל שירות.",
+    docName2:"יוטה אאוקי",
+    docTitle:"פסיכיאטר / מנהל מרפאת אאוקי / מרצה נלווה, אוניברסיטת שווא לרפואה",
+    docP1:"הוכשר בבית החולים של אוניברסיטת טוקיו, ולאחר מכן חקר פסיכיאטריה ב-NYU Langone. ייסד את מרפאת אאוקי ב-2022, התומכת ביותר מ-800 מטופלים בשנה עם צוות של תשעה רופאים. פעיל ברפואה, בתעשייה ובמחקר.",
+    docP2:"מוביל צוותי מחקר בינלאומיים המפרסמים בכתבי העת המובילים, כולל The American Journal of Psychiatry.",
+    cred1:"מקום 3 ביפן — ADHD (Expertscape)",cred2:"0.6% העליונים בעולם — ספקטרום אוטיסטי",cred3:"פרסומים בכתבי עת מובילים",
+    advisor:"רשת הייעוץ שלנו מתרחבת — כולל פיקוח מומחים במניעת אובדנות עם מוסדות מחקר יפניים, ושיתופי פעולה עם חוקרים בחו\"ל. פרטים יפורסמו.",
+    flowH2:"איך אנחנו עובדים",
+    fl1h:"היכרות",fl1p:"מקשיבים לאתגרים ולתוכניות או למוצרים הקיימים",
+    fl2h:"אבחון והצעה",fl2p:"עיצוב תוכנית, פיקוח וכניסה לשוק על בסיס מומחיות קלינית",
+    fl3h:"הטמעה ופיילוט",fl3p:"מתחילים בקטן עם PoC או הטמעה מלאה",
+    fl4h:"ליווי ושיפור",fl4p:"סקירות KPI ותמיכת שיפור מתמשכת",
+    faqH2:"שאלות נפוצות",
+    q1:"אילו ארגונים אתם משרתים?",
+    a1:"חברות בכל הגדלים העוסקות בבריאות נפש של עובדים, מוסדות וספקי סיעוד, וחברות מקומיות או בינלאומיות המציעות שירותי AI בתחום בריאות הנפש.",
+    q2:"אנחנו חברה זרה — תוכלו ללוות כניסה לשוק היפני?",
+    a2:"כן. אנו מספקים ליווי מקצה לקצה לכניסה לשוק היפני: לוקליזציה, פיקוח רפואי, ליווי רגולטורי ופיתוח שותפים ולקוחות. ייעוץ זמין באנגלית.",
+    q3:"אפשר לשכור אתכם לייעוץ בלבד?",
+    a3:"כן. הטמעת מוצר אינה תנאי — אבחון תוכניות, עיצוב KPI, תמיכת PoC ופיקוח רפואי על שירותי AI זמינים כפרויקטים עצמאיים.",
+    q4:"האם ה-AI מבצע אבחנות רפואיות?",
+    a4:"לא. השירותים שלנו אינם מבצעים אבחון רפואי. ניתוח רב-ערוצי מבוסס ידע מומחים נועד לזהות סימנים מוקדמים לשינוי ברווחה הנפשית.",
+    q5:"איך מטופל מידע אישי?",
+    a5:"השיחות מוצפנות ולעולם אינן נמסרות למעסיקים או למוסדות בצורה מזהה. משותפות רק מגמות ברמת הארגון, לאחר ניתוח סטטיסטי.",
+    ctaH2:"ספרו לנו איפה אתם היום.",
+    ctaP:"מסקירת תוכניות והטמעת AI ועד כניסה לשוק היפני ופיקוח רפואי — מענה בידע של פסיכיאטרים פעילים.",
+    ctaBtn:"קביעת ייעוץ חינם",
+    tagline2:"מגשרים בין רפואה ל-AI",
+    ft1:"צור קשר",ft2:"מדיניות פרטיות",ft3:"תנאי שימוש",ft4:"גילוי מסחרי",
+    ftNote:"קבוצה: Cognifort Inc. ו-Syrup (סיעוד ביתי / תמיכה בטיפול ביתי)"
+  },
+  fr:{
+    dir:"ltr",
+    tagline:"Le pont entre médecine et IA",
+    nav1:"Services",nav2:"Conseil",nav3:"Domaines",nav4:"Supervision",nav5:"FAQ",navCta:"Contact",
+    heroTag:"Expertise psychiatrique × Technologie IA",
+    heroDeco:"Bridging Clinical Knowledge and AI Technology",
+    heroH1:"Le pont entre la <em>médecine</em><br>et l'IA.",
+    heroDesc:"De la localisation des meilleures IA de santé mentale pour le marché japonais à la supervision médicale de produits d'IA, jusqu'à l'accompagnement du déploiement en entreprise et en établissement de soins — des psychiatres en exercice, à la pointe de la recherche, comblent l'écart entre technologie et médecine.",
+    ctaConsult:"Parlons-en",ctaDownload:"Télécharger la documentation",
+    docL:"Supervision médicale",docName:"Yuta Aoki, MD, PhD",
+    docRole:"Psychiatre / Directeur, Clinique Aoki / Chargé de cours, Université médicale Showa",
+    docDesc:"Chaque service est conçu sous la supervision d'un psychiatre qui accompagne plus de 800 patients par an et dirige des équipes de recherche internationales.",
+    bridgeH2:"Relier la technologie mondiale<br>au terrain japonais — par la médecine.",
+    bh1:"Les meilleures IA de<br>santé mentale au monde",
+    bp1:"Technologies et modèles économiques pionniers des États-Unis, d'Europe et d'Israël",
+    coreS:"Supervision médicale × Localisation",
+    bh2:"Entreprises, santé et<br>établissements de soins au Japon",
+    bp2:"Une mise en œuvre sûre, adaptée à la réglementation, à la langue et à la culture clinique",
+    st1:"Médecins de notre clinique superviseure",st2:"Patients accompagnés par an",st3:"Sites clients, santé au travail (groupe)",st4:"Publications dans les grandes revues internationales",
+    svcH2:"Depuis la clinique, l'entreprise<br>et la technologie.",
+    svcLead:"Des solutions de santé mentale en entreprise propulsées par l'IA, et des soins cliniques de terrain. Notre singularité : opérer les deux — technologie et pratique médicale réelle — en un seul groupe intégré.",
+    l3h:"IA & Bien-être numérique",l2h:"Solutions entreprises",l1h:"Clinique & Soins",
+    tagLive:"Actif",tagGrp:"Groupe",tagSoon:"Bientôt",
+    featH4:"EAP nouvelle génération",
+    featDesc:"Un soutien en santé mentale par IA, 24 h/24 et 7 j/7, propulsé par un accompagnement LLM fondé sur les TCC. La conversation naturelle quotidienne détecte les changements, les visualise et y répond avec un suivi éclairé par l'expertise — découverte et soutien dans une seule expérience de dialogue.",
+    fb1:"Accompagnement LLM fondé sur les TCC",fb2:"Disponible 24 h/24, 365 jours",fb3:"Tableaux de bord individuels",fb4:"Rapports de tendances pour les RH",fb5:"Rapports juridiques supervisés par avocat",fb6:"Humain × IA pour une accessibilité maximale",
+    featPrice:"/ salarié / an (HT) — à partir de 415 ¥ par mois",
+    c1h:"Services de santé au travail",
+    c1p:"Des médecins du travail et consultants en hygiène expérimentés au service d'environ 30 sites clients. Pas une simple conformité légale : une santé au travail au service du management.",
+    c1b1:"Cabinets d'audit, IT, négoce et plus",c1b2:"Entretiens médicaux & comités d'hygiène",c1b3:"Alignée sur les priorités de la direction",
+    c2h:"Analytics — Bilan de stress",
+    c2p:"Du bilan de stress réglementaire à l'analyse collective multivariée et au reporting d'amélioration actionnable. Nous ne nous arrêtons pas à la mesure : nous précisons ce qu'il faut changer.",
+    c2b1:"Réalisation des bilans réglementaires",c2b2:"Analyse collective multivariée exclusive",c2b3:"Des rapports qui se traduisent en actions",
+    c3h:"EAP — Soutien aux salariés",
+    c3p:"Accompagnement en ligne par des psychologues cliniciens agréés. Compétences d'adaptation fondées sur les TCC et prévention des rechutes à long terme : de la consultation au changement.",
+    c3b1:"Développement de compétences TCC",c3b2:"Suivi continu à moyen-long terme",c3b3:"Coordination avec médecins & RH",
+    s1h:"Station de soins infirmiers à domicile",
+    s1p:"Soins infirmiers à domicile centrés sur la psychiatrie, soutenant le rétablissement chez soi. Des soins ancrés dans la communauté : « la médecine au cœur de la vie quotidienne ».",
+    s1b1:"Soins psychiatriques à domicile",s1b2:"Équipe pluridisciplinaire",s1b3:"Continuité stable des soins à domicile",
+    s2h:"Bureau d'accompagnement des soins à domicile",
+    s2p:"Une gestion de soins qui optimise la vie à domicile. Un accompagnement de proximité pour que maladie et handicap ne privent jamais personne de sa vie.",
+    s2b1:"Élaboration & gestion de plans de soins",s2b2:"Coordination avec les prestataires",s2b3:"Conseil continu aux familles",
+    conH2:"Trois pratiques de conseil<br>ancrées dans l'expertise clinique",
+    conLead:"Pour les entreprises de santé internationales qui entrent au Japon et pour les organisations qui développent l'IA en santé mentale : accès au marché, localisation et connexions cliniques, comme seul peut l'offrir un groupe doté d'opérations médicales réelles.",
+    con1h:"Entrée sur le marché japonais pour les entreprises de santé internationales",
+    con1p:"Un accompagnement de bout en bout pour les entreprises de santé et d'IA étrangères : conception de la stratégie d'entrée, navigation réglementaire, ouverture vers clients et partenaires — votre première équipe sur le terrain, à Tokyo.",
+    con1b1:"Évaluation du marché & stratégie d'entrée",con1b2:"Navigation réglementaire & conformité (PMD Act, APPI)",con1b3:"Développement de partenaires & mise en relation clients",con1b4:"Implantation locale — bureaux & équipe bilingue",
+    con2h:"Localisation de l'activité pour le marché japonais",
+    con2p:"Une localisation qui va plus loin que la langue : refonte des produits et services selon la culture clinique, les pratiques d'entreprise et les exigences de sécurité japonaises — dialogues et protocoles de crise supervisés par des psychiatres.",
+    con2b1:"Localisation produit & UX pour le Japon",con2b2:"Supervision psychiatrique des dialogues & prompts",con2b3:"Conception de la réponse aux risques suicidaires et de crise",con2b4:"Revue sécurité & éthique aux normes japonaises",
+    con3h:"Coopération de données avec les établissements médicaux",
+    con3p:"Le Japon détient parmi les données médicales les plus riches au monde : imagerie, bilans de santé, dossiers cliniques. Nous relions les entreprises d'IA aux établissements médicaux : recherches conjointes, validation clinique et partenariats de données respectueux de la vie privée, générateurs de preuves réelles.",
+    con3b1:"Recherche conjointe avec les établissements médicaux",con3b2:"Conception de PoC & validation clinique",con3b3:"Partenariats de données respectueux de la vie privée",con3b4:"Construction de preuves pour le marché japonais",
+    fldH2:"Du monde du travail aux soins aux aînés.",
+    fldLead:"Une plateforme d'IA sous supervision médicale, déployée sur deux terrains.",
+    f1h:"Pour les entreprises & organisations",
+    f1p:"Détecter préventivement la détresse des salariés par le dialogue IA quotidien, avant qu'elle n'émerge. Relié aux dispositifs RH, unissant soutien individuel et amélioration organisationnelle.",
+    f1b1:"Auto-soin quotidien par le dialogue IA",f1b2:"Visibilité individuelle & organisationnelle",f1b3:"Connexion aux dispositifs & KPI",
+    f2h:"Pour les aînés & établissements de soins",
+    f2p:"Apporter le dialogue IA sous supervision médicale aux établissements et aux domiciles. La conversation quotidienne accompagne la solitude et les changements émotionnels, et alerte l'équipe et la famille.",
+    f2b1:"Écoute & conversation quotidienne par avatars",f2b2:"Détection & partage des signes de changement",f2b3:"Conception du déploiement en établissement",
+    docH2:"Chaque service, supervisé par un psychiatre.",
+    docLead:"La crédibilité d'un pont se juge à sa supervision. Des experts à la pointe de la clinique et de la recherche participent à la conception de chaque service.",
+    docName2:"Yuta Aoki",
+    docTitle:"Psychiatre / Directeur, Clinique Aoki / Chargé de cours, Université médicale Showa",
+    docP1:"Formé à l'hôpital de l'Université de Tokyo, puis chercheur en psychiatrie au NYU Langone Medical Center. Fondateur de la Clinique Aoki en 2022, qui accompagne plus de 800 patients par an avec une équipe de neuf médecins. Actif entre médecine, industrie et recherche.",
+    docP2:"Dirige des équipes internationales publiant dans les plus grandes revues, dont The American Journal of Psychiatry.",
+    cred1:"N°3 au Japon — TDAH (Expertscape)",cred2:"Top 0,6 % mondial — Spectre autistique",cred3:"Publications dans les grandes revues",
+    advisor:"Notre réseau consultatif s'élargit : supervision spécialisée en prévention du suicide avec des instituts de recherche japonais et collaborations avec des chercheurs étrangers. Annonces à venir.",
+    flowH2:"Notre méthode",
+    fl1h:"Écoute",fl1p:"Nous écoutons vos enjeux et vos dispositifs ou produits actuels",
+    fl2h:"Diagnostic & Proposition",fl2p:"Conception du programme, de la supervision et de l'entrée sur le marché, fondée sur l'expertise clinique",
+    fl3h:"Déploiement & Pilote",fl3p:"Démarrer petit, par un PoC ou un déploiement complet",
+    fl4h:"Ancrage & Amélioration",fl4p:"Revues de KPI et soutien continu à l'amélioration",
+    faqH2:"Questions fréquentes",
+    q1:"Quels types d'organisations servez-vous ?",
+    a1:"Des entreprises de toutes tailles engagées pour la santé mentale de leurs salariés, des établissements et prestataires de soins aux aînés, et des entreprises japonaises ou internationales proposant des services d'IA en santé mentale.",
+    q2:"Nous sommes une entreprise étrangère : pouvez-vous accompagner notre entrée au Japon ?",
+    a2:"Oui. Nous offrons un accompagnement de bout en bout : localisation, supervision médicale, cadrage réglementaire, développement de partenaires et de clients. Consultations possibles en anglais.",
+    q3:"Peut-on vous solliciter uniquement pour du conseil ?",
+    a3:"Oui. Le déploiement d'un produit n'est pas un prérequis : diagnostic de programme, conception de KPI, soutien PoC et supervision médicale de services d'IA sont disponibles en missions autonomes.",
+    q4:"L'IA pose-t-elle des diagnostics médicaux ?",
+    a4:"Non. Nos services ne réalisent aucun diagnostic médical. L'analyse multimodale éclairée par l'expertise vise à détecter les signes précoces d'évolution du bien-être mental.",
+    q5:"Comment les données personnelles sont-elles traitées ?",
+    a5:"Les conversations sont chiffrées et ne sont jamais transmises aux employeurs ou établissements sous une forme identifiable. Seules des tendances agrégées au niveau de l'organisation sont partagées.",
+    ctaH2:"Dites-nous où vous en êtes.",
+    ctaP:"De la revue de vos dispositifs au déploiement d'IA, de l'entrée sur le marché japonais à la supervision médicale — avec le savoir de psychiatres en exercice.",
+    ctaBtn:"Réserver une consultation gratuite",
+    tagline2:"Le pont entre médecine et IA",
+    ft1:"Contact",ft2:"Confidentialité",ft3:"Conditions d'utilisation",ft4:"Mentions commerciales",
+    ftNote:"Groupe : Cognifort Inc. & Syrup (soins infirmiers / accompagnement à domicile)"
+  },
+  ja:{
+    dir:"ltr",
+    tagline:"医療とAIの橋渡し",
+    nav1:"サービス",nav2:"コンサルティング",nav3:"支援領域",nav4:"医療監修",nav5:"FAQ",navCta:"無料相談",
+    heroTag:"精神科医の知見 × AIテクノロジー",
+    heroDeco:"Bridging Clinical Knowledge and AI Technology",
+    heroH1:"医療情報とAI技術の、<br><em>橋渡し</em>をする会社。",
+    heroDesc:"世界で先行するメンタルヘルスAIの日本ローカライズから、AIプロダクトへの医療監修、企業・施設への導入伴走まで。臨床・研究の第一線に立つ精神科医の知見で、テクノロジーと医療の間を埋めます。",
+    ctaConsult:"導入・提携のご相談",ctaDownload:"資料ダウンロード",
+    docL:"医療監修",docName:"青木 悠太 MD, PhD",
+    docRole:"精神科医／博士(医学)／あおきクリニック院長／昭和医科大学 兼任講師",
+    docDesc:"年間延べ800名超の診療と国際共同研究の第一線に立つ精神科医が、すべてのサービス設計を監修しています。",
+    bridgeH2:"世界の技術と日本の現場を、<br>医療でつなぐ。",
+    bh1:"世界の先進<br>メンタルヘルスAI",
+    bp1:"米国・欧州・イスラエル等で先行する技術とビジネスモデル",
+    coreS:"医療監修 × ローカライズ",
+    bh2:"日本の企業・医療・<br>介護の現場",
+    bp2:"規制・言語・臨床文化に適合した、安全な社会実装",
+    st1:"監修クリニックの医師体制",st2:"年間延べ支援患者数",st3:"グループ産業医サービスの契約事業所",st4:"国際トップジャーナルでの研究実績",
+    svcH2:"臨床から、組織から、<br>テクノロジーから。",
+    svcLead:"AIを活用した企業向けメンタルヘルスソリューションと、医療・ケアの現場。テクノロジーと実際の医療実践の両方を、ひとつのグループとして運営していることが私たちの独自性です。",
+    l3h:"AI・デジタルウェルネス",l2h:"企業向けソリューション",l1h:"医療・ケア",
+    tagLive:"提供中",tagGrp:"グループ",tagSoon:"順次展開",
+    featH4:"次世代EAP",
+    featDesc:"CBTベースのLLMカウンセリングによる、24時間365日対応のAIメンタルサポート。日々の自然な対話から心の変化を見つけ、可視化し、専門家知見を反映したAIが寄り添う。発見と対策がひとつの対話体験で完結します。",
+    fb1:"CBTベースのLLMカウンセリング",fb2:"24時間365日対応",fb3:"個人コンディション可視化ダッシュボード",fb4:"組織傾向レポート(人事・労務向け)",fb5:"弁護士監修リーガルレポート",fb6:"人とAIの融合によるアクセシビリティ最大化",
+    featPrice:"/ 従業員・年(税別) ─ 月換算415円〜",
+    c1h:"産業医サービス",
+    c1p:"経験豊富な産業医・労働衛生コンサルタントが対応。約30事業所との契約実績。単なる法令対応ではなく「経営に資する産業保健」を提供します。",
+    c1b1:"監査法人・IT企業・卸売業など幅広く対応",c1b2:"産業医面談・衛生委員会運営",c1b3:"経営課題と連動した産業保健",
+    c2h:"Analytics ─ ストレスチェック",
+    c2p:"法定ストレスチェックの実施から多変量解析による集団分析、改善施策のレポーティングまで一貫提供。「測るだけ」で終わらせず「何を変えればよいか」を明確化します。",
+    c2b1:"法定ストレスチェックの実施",c2b2:"多変量解析による独自の集団分析",c2b3:"改善施策まで落とし込むレポート",
+    c3h:"EAP ─ 従業員支援プログラム",
+    c3p:"公認心理師・臨床心理士によるオンラインカウンセリング。CBTに基づくストレス対処スキルの提供と再発予防まで含めた継続支援で、「相談」から「変化」へ導きます。",
+    c3b1:"CBTに基づくスキル習得支援",c3b2:"再発予防を含む中長期の継続支援",c3b3:"産業医・人事部門との組織的連携",
+    s1h:"シロップ 訪問看護ステーション",
+    s1p:"精神科を含む訪問看護を中心に在宅療養を支援。代官山・鉢山町を拠点に、地域に根ざしたケアを提供。「生活の中に医療がある状態」を実現します。",
+    s1b1:"精神科訪問看護の実施",s1b2:"多職種チームによる包括支援",s1b3:"在宅療養の安定継続をサポート",
+    s2h:"シロップ 居宅介護支援事業所",
+    s2p:"ケアマネジメントを通じた在宅生活の最適化。浜松町を拠点に、病気や障害に生活を奪わせない伴走支援を行います。",
+    s2b1:"個別ケアプランの立案・管理",s2b2:"介護サービス事業者との連携調整",s2b3:"利用者・家族への継続相談対応",
+    conH2:"医療知見にもとづく<br>3つのコンサルティング",
+    conLead:"日本進出をめざす海外ヘルスケア企業と、メンタルヘルス領域でAIを展開する企業へ。実際の医療現場を持つグループだからこそ提供できる、市場アクセス・ローカライズ・医療連携を。",
+    con1h:"海外ヘルスケア企業の日本進出支援",
+    con1p:"海外のヘルスケア・AI企業の日本市場参入をエンドツーエンドで支援。参入戦略の設計から規制対応、企業顧客・パートナーの開拓まで、東京における「最初のチーム」として伴走します。",
+    con1b1:"市場性評価・参入戦略の設計",con1b2:"規制・コンプライアンス対応(薬機法・個人情報保護法)",con1b3:"パートナー開拓・企業顧客マッチング",con1b4:"拠点立ち上げ支援(オフィス・バイリンガルチーム)",
+    con2h:"日本市場向け事業ローカライゼーション",
+    con2p:"翻訳にとどまらないローカライズ。日本の臨床文化・企業慣行・安全性への期待に合わせてプロダクトとサービスを再設計します。対話設計と危機対応プロトコルは精神科医が監修します。",
+    con2b1:"プロダクト・UXの日本向け再設計",con2b2:"対話設計・プロンプトの精神科医監修",con2b3:"自殺リスク・危機対応の設計",con2b4:"日本基準の安全性・倫理レビュー",
+    con3h:"医療機関とのデータ連携",
+    con3p:"日本は画像診断・健康診断・臨床記録など、世界有数の医療データを有する国です。医療機関との共同研究、臨床での実証、プライバシーに配慮したデータ連携スキームの構築により、確かなエビデンスづくりを支援します。",
+    con3b1:"医療機関との共同研究の設計",con3b2:"PoC・臨床実証の設計と実施",con3b3:"プライバシーに配慮したデータ連携スキーム",con3b4:"日本市場向けエビデンス構築",
+    fldH2:"働く人から、高齢者まで。",
+    fldLead:"メンタルヘルスを軸に、同じ医療監修AI基盤を2つの現場へ届けます。",
+    f1h:"企業・組織向け",
+    f1p:"従業員の不調を「表面化してから」ではなく、日々のAI対話から予防的にとらえる。人事・労務の施策とつなぎ、個人支援と組織改善を一体で回します。",
+    f1b1:"AI対話による日常的なセルフケア導線",f1b2:"個人コンディション・組織傾向の可視化",f1b3:"施策改善・KPI設計への接続",
+    f2h:"高齢者・施設向け",
+    f2p:"企業向けで培った医療監修AI対話を、高齢者施設・在宅の現場へ。孤独感や心の変化に日々の会話で寄り添い、スタッフ・ご家族の気づきにつなげます。",
+    f2b1:"AIアバターによる傾聴・日常会話",f2b2:"心の変化の兆候把握と共有",f2b3:"施設向け導入設計の支援",
+    docH2:"すべてのサービスに、精神科医の監修を。",
+    docLead:"「橋渡し」の信頼性は、監修体制で決まる。臨床・研究の第一線に立つ専門家がサービス設計そのものに関与しています。",
+    docName2:"青木 悠太",
+    docTitle:"精神科医／博士(医学)／あおきクリニック院長／昭和医科大学 兼任講師",
+    docP1:"東京大学医学部附属病院にて研鑽後、ニューヨーク大学ランゴンメディカルセンターに留学し精神医学研究に従事。2022年にあおきクリニックを開設、常勤・非常勤合わせて9名の医師とともに年間延べ800名超の患者を支援。産業医・EAP・ストレスチェック領域での企業向けメンタルヘルス支援やオンライン認知行動療法の監修など、医療・産業・研究を横断して活動。",
+    docP2:"The American Journal of Psychiatry をはじめとするトップジャーナルで国際研究チームを率いて成果を発表。",
+    cred1:"Expertscape ADHD部門 日本3位",cred2:"自閉スペクトラム症部門 世界上位0.6%",cred3:"国際誌 多数掲載",
+    advisor:"監修・アドバイザリー体制は順次拡充中です。国内研究機関との連携による自殺予防等の専門領域の監修体制、海外研究者ネットワークとの協働についても準備を進めています。",
+    flowH2:"ご相談から支援開始まで",
+    fl1h:"ヒアリング",fl1p:"課題と既存施策・プロダクトの状況を伺います",
+    fl2h:"診断・ご提案",fl2p:"医療知見をもとに施策・監修・展開案を設計",
+    fl3h:"導入・実証",fl3p:"PoCまたは本導入をスモールに開始",
+    fl4h:"伴走・定着",fl4p:"KPIレビューと改善を継続支援",
+    faqH2:"よくあるご質問",
+    q1:"どのような組織が対象ですか?",
+    a1:"従業員のメンタルヘルスに取り組む企業全般、高齢者施設・介護事業者、そしてメンタルヘルス領域でAIサービスを提供・展開したい国内外の企業が対象です。",
+    q2:"海外企業ですが、日本展開の相談はできますか?",
+    a2:"可能です。日本市場向けのローカライズ、医療監修、規制まわりの整理、パートナー・導入先の開拓まで、日本参入に必要な支援を一気通貫で提供します。英語でのご相談にも対応します。",
+    q3:"コンサルティングのみの依頼は可能ですか?",
+    a3:"可能です。プロダクト導入を前提とせず、施策診断・KPI設計・PoC支援・AIサービスへの医療監修など、コンサルティング単体でお受けしています。",
+    q4:"AIによる診断を行うのですか?",
+    a4:"本サービスは医療上の診断を行うものではありません。専門家知見を踏まえたマルチモーダル分析により、心の変化の兆候把握を目的としています。詳細は導入時にご説明します。",
+    q5:"個人情報の取り扱いは?",
+    a5:"対話内容は暗号化され、企業・施設側には個人が特定できる形では提供されません。組織全体の傾向として統計的に分析した情報のみを提供します。",
+    ctaH2:"まずは、現状の課題からお聞かせください",
+    ctaP:"施策の見直し、AI導入、日本展開・医療監修のご相談まで。精神科医の知見でお応えします。",
+    ctaBtn:"無料相談を申し込む",
+    tagline2:"医療とAIの橋渡し",
+    ft1:"お問い合わせ",ft2:"プライバシーポリシー",ft3:"利用規約",ft4:"特定商取引法に基づく表示",
+    ftNote:"グループ: Cognifort株式会社 ・ シロップ(訪問看護/居宅介護支援)"
+  }
+};
+
+(function(){
+  /* capture English defaults from the DOM */
+  var EN = {dir:"ltr"};
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    EN[el.dataset.i18n] = el.innerHTML;
+  });
+  I18N.en = EN;
+
+  function setLang(lang){
+    var dict = I18N[lang] || I18N.en;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k = el.dataset.i18n;
+      if(dict[k] !== undefined) el.innerHTML = dict[k];
+      else el.innerHTML = I18N.en[k];
+    });
+    document.documentElement.lang = lang;
+    document.documentElement.dir = dict.dir || "ltr";
+    document.querySelectorAll('#langSwitch button').forEach(function(b){
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    /* reset open FAQ heights (text length changed) */
+    document.querySelectorAll('details[open] .faq-body').forEach(function(b){
+      b.style.maxHeight = b.scrollHeight + 'px';
+    });
+  }
+
+  document.querySelectorAll('#langSwitch button').forEach(function(b){
+    b.addEventListener('click', function(){ setLang(b.dataset.lang); });
+  });
+
+  /* header + progress */
+  var hd=document.getElementById('hd'),pg=document.getElementById('progress');
+  function onScroll(){
+    var y=window.scrollY;
+    hd.classList.toggle('scrolled',y>30);
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    pg.style.width=(h>0?(y/h*100):0)+'%';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  /* reveal */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:0.12,rootMargin:'0px 0px -50px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+
+  /* counters */
+  var cio=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;cio.unobserve(e.target);
+      var el=e.target,to=parseInt(el.dataset.to,10),t0=null,dur=1400;
+      function step(t){
+        if(!t0)t0=t;var p=Math.min((t-t0)/dur,1);
+        el.textContent=Math.round(to*(1-Math.pow(1-p,3)));
+        if(p<1)requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  },{threshold:0.5});
+  document.querySelectorAll('.count').forEach(function(el){cio.observe(el);});
+
+  /* FAQ smooth */
+  document.querySelectorAll('details').forEach(function(d){
+    var body=d.querySelector('.faq-body');if(!body)return;
+    d.querySelector('summary').addEventListener('click',function(ev){
+      ev.preventDefault();
+      if(d.open){body.style.maxHeight='0';setTimeout(function(){d.open=false;},500);}
+      else{d.open=true;requestAnimationFrame(function(){body.style.maxHeight=body.scrollHeight+'px';});}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
